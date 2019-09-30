@@ -1,26 +1,128 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    render() {
+        return (
+            <FeedList/>
+        )
+    }
+}
+
+class FeedList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            input: {title: "Enter Title here", content: "Enter Content here",},
+            feed: Array(0),
+        };
+    }
+
+    handleSubmit(event) {
+        const feed = this.state.feed.slice();
+        const newFeed = {
+            title: this.state.input.title,
+            content: this.state.input.content,
+            isLiked: false,
+        };
+        this.setState(
+            {feed: feed.concat([newFeed])});
+
+        alert("Post submitted successfully: \n" + this.state.input.title + "\n" + this.state.input.content);
+        event.preventDefault();
+    }
+
+    handleChange(event) {
+        const inputs = this.state.input;
+        const key = event.target.name;
+        inputs[key] = event.target.value;
+
+        this.setState({input: inputs});
+    }
+
+    handleClick(i) {
+        const feed = this.state.feed.slice();
+        feed[i].isLiked = !feed[i].isLiked;
+        this.setState(
+            {feed: feed});
+    }
+
+
+    render() {
+        if (this.state.feed[0]) {
+            return (
+                <div id="feedList">
+                    <div id="feed">
+                        {this.state.feed.map((eachFeed, i) =>
+                            <div className={"feed_" + i} key={i}>
+                                <Feed
+                                    title={this.state.feed[i].title}
+                                    content={this.state.feed[i].content}
+                                    isLiked={this.state.feed[i].isLiked}
+                                    onClick={() => this.handleClick(i)}
+                                />
+                            </div>
+                        )}
+                    </div>
+                    <div id="inputBox"><InputBox title={this.state.input.title}
+                                                 content={this.state.input.content}
+                                                 onChange={(e) => this.handleChange(e)}
+                                                 onSubmit={(e) => this.handleSubmit(e)}/></div>
+                </div>
+            )
+        } else {
+            return (
+                <div id="feedList">
+                    <div id="inputBox"><InputBox title={this.state.input.title}
+                                                 content={this.state.input.content}
+                                                 onChange={(e) => this.handleChange(e)}
+                                                 onSubmit={(e) => this.handleSubmit(e)}/></div>
+                </div>
+            )
+        }
+
+    }
+}
+
+
+function Feed(props) {
+    const likeImage = props.isLiked ? './Liked.png' : './toLike.png';
+
+    return (
+        <div className="Feed">
+            <div className="Title">{props.title}</div>
+            <div className="Content">{props.content}</div>
+            <input type="image" src={require(`${likeImage}`)}
+                   alt="Like" name="Like" className="Like"
+                   onClick={props.onClick}/>
+        </div>
+    );
+}
+
+
+class InputBox extends React.Component {
+
+    render() {
+        return (
+            <div className="Input">
+                <form onSubmit={(e) => this.props.onSubmit(e)}>
+                    <label>Create a new post</label>
+                    <label>Title</label>
+                    <input type="text" name="title" value={this.props.title} onChange={(e) => this.props.onChange(e)}/>
+                    <div>
+                        <label>Content</label>
+                        <input type="text" name="content"
+                               value={this.props.content}
+                               onChange={(e) => this.props.onChange(e)}/>
+                    </div>
+                    <div><input type="submit" value="Submit"/></div>
+
+                </form>
+
+            </div>
+        );
+    }
 }
 
 export default App;
+
