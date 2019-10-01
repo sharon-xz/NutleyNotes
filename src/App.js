@@ -28,7 +28,7 @@ class FeedList extends React.Component {
         this.setState(
             {feed: feed.concat([newFeed])});
 
-        alert("Post submitted successfully: \n" + this.state.input.title + "\n" + this.state.input.content);
+        // alert("Post submitted successfully: \n" + this.state.input.title + "\n" + this.state.input.content);
         event.preventDefault();
     }
 
@@ -73,6 +73,7 @@ class FeedList extends React.Component {
         } else {
             return (
                 <div id="feedList">
+                    <div id="feed"><span className="noFeed"> No Feed yet.</span></div>
                     <div id="inputBox"><InputBox title={this.state.input.title}
                                                  content={this.state.input.content}
                                                  onChange={(e) => this.handleChange(e)}
@@ -106,16 +107,21 @@ class InputBox extends React.Component {
         return (
             <div className="Input">
                 <form onSubmit={(e) => this.props.onSubmit(e)}>
-                    <label>Create a new post</label>
-                    <label>Title</label>
-                    <input type="text" name="title" value={this.props.title} onChange={(e) => this.props.onChange(e)}/>
-                    <div>
-                        <label>Content</label>
-                        <input type="text" name="content"
-                               value={this.props.content}
+                    <label className='createPost'>Create a new post here:</label>
+                    <div id="inputTitle">
+                        <label className='postField'>Title: </label>
+                        <input type="text" name="title"
+                               value={this.props.title}
                                onChange={(e) => this.props.onChange(e)}/>
                     </div>
-                    <div><input type="submit" value="Submit"/></div>
+                    <div id="inputContent">
+                        <label className='postField'>Content: </label>
+                        <textarea name="content"
+                                  value={this.props.content}
+                                  onChange={(e) => this.props.onChange(e)}/>
+                    </div>
+
+                    <input type="submit" value="Submit"/>
 
                 </form>
 
