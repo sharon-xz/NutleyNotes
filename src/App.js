@@ -24,6 +24,7 @@ class FeedList extends React.Component {
             title: this.state.input.title,
             content: this.state.input.content,
             isLiked: false,
+            time: showtime(),
         };
         this.setState(
             {feed: feed.concat([newFeed])});
@@ -59,6 +60,7 @@ class FeedList extends React.Component {
                                     title={this.state.feed[i].title}
                                     content={this.state.feed[i].content}
                                     isLiked={this.state.feed[i].isLiked}
+                                    time={this.state.feed[i].time}
                                     onClick={() => this.handleClick(i)}
                                 />
                             </div>
@@ -96,6 +98,7 @@ function Feed(props) {
             <input type="image" src={require(`${likeImage}`)}
                    alt="Like" name="Like" className="Like"
                    onClick={props.onClick}/>
+            <div className="Time">{props.time}</div>
         </div>
     );
 }
@@ -128,6 +131,18 @@ class InputBox extends React.Component {
             </div>
         );
     }
+}
+
+function showtime() {
+    let currentdate = new Date();
+    let datetime =
+        (currentdate.getMonth() + 1) + "/"
+        + currentdate.getDate() + "/"
+        + currentdate.getFullYear() + " @ "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes() + ":"
+        + currentdate.getSeconds();
+    return datetime;
 }
 
 export default App;
