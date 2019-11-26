@@ -73,7 +73,7 @@ class FeedList extends React.Component {
                             )}
                         </div>
                     </Container>
-                    <Container fixed style={{backgroundColor: '#cfe8fc'}}>
+                    <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
 
                         <div id="inputBox"><InputBox title={this.state.input.title}
                                                      content={this.state.input.content}
@@ -88,12 +88,12 @@ class FeedList extends React.Component {
         } else {
             return (
 
-                <><Container fixed style={{backgroundColor: '#cfe8fc'}}>
+                <><Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
 
                     <div id="feed"><span className="noFeed"> No Feed yet.</span></div>
                 </Container>
 
-                <Container fixed style={{backgroundColor: '#cad2de'}}>
+                <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
                     <div id="inputBox"><InputBox title={this.state.input.title}
                                                  content={this.state.input.content}
                                                  onChange={(e) => this.handleChange(e)}
