@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import {CssBaseline, Container, Card, CardHeader, CardContent, Fab} from '@material-ui/core';
+import {CssBaseline, Container, Card, CardHeader, CardContent, Fab, TextField, Button} from '@material-ui/core';
 import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
+import SendIcon from '@material-ui/icons/Send';
 
 class App extends React.Component {
     render() {
@@ -56,11 +57,18 @@ class FeedList extends React.Component {
     render() {
         if (this.state.feed[0]) {
             return (
-                <>
+                <><Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
+
+                    <div id="inputBox"><InputBox title={this.state.input.title}
+                                                 content={this.state.input.content}
+                                                 onChange={(e) => this.handleChange(e)}
+                                                 onSubmit={(e) => this.handleSubmit(e)}/>
+                    </div>
+                </Container>
                     <Container fixed maxWidth={false}
                                style={{backgroundColor: '#cfe8fc'}}>
 
-                        <div id="feed" style={{padding: "1.5em"}} >
+                        <div id="feed" style={{padding: "1.5em"}}>
                             {this.state.feed.map((eachFeed, i) =>
                                 <div className={"feed_" + i} key={i}>
                                     <Feed
@@ -73,14 +81,7 @@ class FeedList extends React.Component {
                             )}
                         </div>
                     </Container>
-                    <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
 
-                        <div id="inputBox"><InputBox title={this.state.input.title}
-                                                     content={this.state.input.content}
-                                                     onChange={(e) => this.handleChange(e)}
-                                                     onSubmit={(e) => this.handleSubmit(e)}/>
-                        </div>
-                    </Container>
                 </>
 
 
@@ -88,17 +89,18 @@ class FeedList extends React.Component {
         } else {
             return (
 
-                <><Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
-
-                    <div id="feed"><span className="noFeed"> No Feed yet.</span></div>
-                </Container>
-
-                <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
+                <> <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
                     <div id="inputBox"><InputBox title={this.state.input.title}
                                                  content={this.state.input.content}
                                                  onChange={(e) => this.handleChange(e)}
                                                  onSubmit={(e) => this.handleSubmit(e)}/></div>
                 </Container>
+
+                    <Container fixed maxWidth={false} style={{backgroundColor: '#cfe8fc'}}>
+
+                        <div id="feed"><span className="noFeed"> No Feed yet.</span></div>
+                    </Container>
+
 
                 </>
 
@@ -117,8 +119,8 @@ function Feed(props) {
             <CardHeader className="Title" title={props.title}/>
             <CardContent className="Content">{props.content}</CardContent>
 
-            <Fab color="primary" aria-label="like" onClick={props.onClick} style={{float:"right", margin: "1.5em"}}>
-                <ThumbUpAltRoundedIcon />
+            <Fab color="primary" aria-label="like" onClick={props.onClick} style={{float: "right", margin: "1.5em"}}>
+                <ThumbUpAltRoundedIcon/>
             </Fab>
 
 
@@ -132,22 +134,34 @@ class InputBox extends React.Component {
     render() {
         return (
             <div className="Input">
-                <form onSubmit={(e) => this.props.onSubmit(e)}>
-                    <label className='createPost'>Create a new post here:</label>
-                    <div id="inputTitle">
-                        <label className='postField'>Title: </label>
-                        <input type="text" name="title"
-                               value={this.props.title}
-                               onChange={(e) => this.props.onChange(e)}/>
-                    </div>
-                    <div id="inputContent">
-                        <label className='postField'>Content: </label>
-                        <textarea name="content"
-                                  value={this.props.content}
-                                  onChange={(e) => this.props.onChange(e)}/>
-                    </div>
+                <form onSubmit={(e) => this.props.onSubmit(e)} style={{padding: "1em 0"}}>
 
-                    <input type="submit" value="Submit"/>
+                    <TextField id="inputTitle"
+                               label="New Post"
+                               fullWidth
+                               value={this.props.title}
+                               onChange={(e) => this.props.onChange(e)}
+                    />
+
+                    <TextField id="inputContent"
+                               label="Content"
+                               multiline
+                               rows="3"
+                               fullWidth
+                               variant="outlined"
+                               margin="normal"
+                               value={this.props.content}
+                               onChange={(e) => this.props.onChange(e)}
+                    />
+
+                    <Button type="submit"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<SendIcon/>}
+                    >
+                        Send
+
+                    </Button>
 
                 </form>
 
