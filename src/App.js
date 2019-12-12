@@ -19,7 +19,7 @@ class FeedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            input: {title: "Enter Title here", content: "Enter Content here",},
+            input: {title: "", content: "",},
             feed: Array(0),
         };
     }
@@ -138,6 +138,7 @@ class InputBox extends React.Component {
 
                     <TextField id="inputTitle"
                                label="New Post"
+                               name="title"
                                fullWidth
                                value={this.props.title}
                                onChange={(e) => this.props.onChange(e)}
@@ -151,6 +152,7 @@ class InputBox extends React.Component {
                                variant="outlined"
                                margin="normal"
                                value={this.props.content}
+                               name="content"
                                onChange={(e) => this.props.onChange(e)}
                     />
 
