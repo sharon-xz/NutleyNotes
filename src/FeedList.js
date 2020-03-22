@@ -2,6 +2,7 @@ import React from "react";
 import {Container} from "@material-ui/core";
 import InputBox from "./InputBox";
 import Feed from "./Feed";
+import {listNotes, createNotes} from "./api";
 
 class FeedList extends React.Component {
     constructor(props) {
@@ -12,18 +13,31 @@ class FeedList extends React.Component {
         };
     }
 
-    handleSubmit(event) {
-        const feed = this.state.feed.slice();
-        const newFeed = {
-            title: this.state.input.title,
-            content: this.state.input.content,
-            isLiked: false,
-        };
-        this.setState(
-            {feed: feed.concat([newFeed])});
+    componentDidMount() {
+        listNotes().then((data) => {
+            this.setState({feed: data.results});
+        })
+    }
 
-        // alert("Post submitted successfully: \n" + this.state.input.title + "\n" + this.state.input.content);
+    handleSubmit(event) {
         event.preventDefault();
+
+        const title = this.state.input.title;
+        const content = this.state.input.content;
+
+        createNotes(title, content).then((ok) => {
+            if (ok) {
+                const feed = this.state.feed.slice();
+                const newFeed = {
+                    title: title,
+                    content: content,
+                    isLiked: false,
+                };
+                this.setState(
+                    {feed: [newFeed].concat(feed)});
+
+            }
+        });
     }
 
     handleChange(event) {
