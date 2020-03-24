@@ -3,7 +3,7 @@ import './App.css';
 import clsx from 'clsx';
 import {
     CssBaseline, Drawer, Toolbar, AppBar, List, Divider, Typography, ListItem,
-    ListItemIcon, ListItemText, IconButton
+    ListItemIcon, ListItemText, IconButton, Button,
 } from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 
@@ -55,6 +55,10 @@ const useStyles = makeStyles(theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
+    toolbar: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
     content: {
         flexGrow: 1,
         // padding: theme.spacing(3),
@@ -98,7 +102,7 @@ export default function App() {
                     [classes.appBarShift]: open,
                 })}
             >
-                <Toolbar>
+                <Toolbar className={classes.toolbar}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -111,6 +115,7 @@ export default function App() {
                     <Typography variant="h6" noWrap>
                         Nutley Notes
                     </Typography>
+                    <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
